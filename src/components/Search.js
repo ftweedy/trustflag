@@ -10,8 +10,8 @@ class Search extends React.Component {
                 <h1>Search</h1>
                 <label for="search"><b>Enter information for search</b></label>
                 <input type="text" placeholder="Enter Search Entity" name="search" required />
+                <Link to="/home"><button>Search Flag</button></Link>
                 <Link to="/home"><button>Home Page</button></Link>
-                <Link to="/home"><button>Add Flag</button></Link>
             </React.Fragment>
         </div>
     );
