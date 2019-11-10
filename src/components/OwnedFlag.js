@@ -17,7 +17,7 @@ const OwnedFlag = ({flag, onDelete}) => {
                     {flag.phoneNumber && <div>Phone number: {flag.phoneNumber}</div>}
                     {flag.location && <div>Location: {flag.location}</div>}
                     {flag.licensePlateNumber && <div>License plate number: {flag.licensePlateNumber}</div>}
-                    <div>Expires: {flag.expires ? flag.expires.split("T")[0] : 'Never'}</div>
+                    <div>Expires: {flag.expirationDate ? flag.expirationDate.split("T")[0] : 'Never'}</div>
                 </div>
                 <div className="col-sm-2">
                     <button style={styles.DELETE_BUTTON} onClick={handleDelete}>Delete</button>

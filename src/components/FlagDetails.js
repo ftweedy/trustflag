@@ -1,18 +1,11 @@
 import React from "react"
 
-import * as styles from "./NoMatch.style"
+import * as styles from "./FlagDetails.style"
 
-const NoMatch = props => {
+const FlagDetails = props => {
     const {name, phoneNumber, locationStr, licensePlateNumber} = props;
     
     return (
-        <div>
-            <div className="row">
-                <br />
-                <div className="col-sm-4 col-sm-offset-4">
-                    <div>No match found</div>
-                </div>
-            </div>
             <div className="row">
                 <div className="col-sm-5 col-sm-offset-1" style={styles.CONTAINER}>
                     {name && 
@@ -28,9 +21,8 @@ const NoMatch = props => {
                     <div><b>Phone number</b>: {phoneNumber}</div>
                     }
                 </div>
-            </div>
         </div>
     );
 }
 
-export default NoMatch
+export default FlagDetails

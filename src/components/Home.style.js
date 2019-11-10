@@ -2,7 +2,9 @@ export const HEADER = {
     padding: 10,
     border: '1px solid black',
     backgroundColor: '#3a4ba7',
-    height: 70
+    height: 55,
+    color: 'white',
+    fontSize: 16
 };
 
 export const FLAGS_HEADER = {
