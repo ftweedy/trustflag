@@ -38,8 +38,6 @@ class Search extends React.Component {
       params.push(phone)
     }
     
-    console.log(params)
-
     for (let i = 0; i < params.length; i++){
       params[i] = params[i].replace(/,/g,"");
       search_term = search_term + params[i] + ","
@@ -82,12 +80,11 @@ class Search extends React.Component {
                 <input onChange={this.handleChange} type="text" placeholder="Enter Search Entity" name="phone" />
                 
                 <button onClick={this.handleSearch}>Search Flag</button>
-                <Link to="/home"><button>Home Page</button></Link>
                 <div>Results</div>
                 {Array.isArray(flags) && flags.map((flag) => {
                     return <div>{flag.name}</div>
-                })
-                }
+                })}
+                <Link to="/home"><button>Home Page</button></Link>
             </React.Fragment>
         </div>
     );
