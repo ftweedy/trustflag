@@ -128,7 +128,6 @@ class Home extends React.Component {
 
     render () {
         const {activeFlags, view, name, phoneNumber, licensePlateNumber, location, searchedFlags} = this.state;
-        console.log("LOCATION: ", location)
         return (
             <div>
                 <div className="row" style={styles.HEADER}>
