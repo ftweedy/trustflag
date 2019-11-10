@@ -2,7 +2,7 @@ export const HEADER = {
     padding: 10,
     border: '1px solid black',
     backgroundColor: '#3a4ba7',
-    height: 55,
+    height: 65,
     color: 'white',
     fontSize: 16
 };
