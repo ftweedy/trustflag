@@ -4,6 +4,7 @@ import OwnedFlag from "./OwnedFlag";
 import * as styles from './Home.style'
 import logo from '../logo.png';
 import Search from "./Search";
+import NoMatch from './NoMatch'
 
 class Home extends React.Component {
   constructor(props){
@@ -45,6 +46,7 @@ class Home extends React.Component {
                         <Search/>
                     </div>
                 </div>
+                <NoMatch/>
             </React.Fragment>
         </div>
     );
