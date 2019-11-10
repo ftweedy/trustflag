@@ -61,30 +61,28 @@ class Search extends React.Component {
   
 
   render () {
-      const {flags} = this.state;
+    const {flags} = this.state;
       
     return (
         <div className="Search">
             <React.Fragment>
-                <h1>Search</h1>
-                <label for="name"><b>Enter name for search</b></label>
-                <input onChange={this.handleChange} type="text" placeholder="Enter Search Entity" name="name" />
-
-                <label for="location"><b>Enter location for search</b></label>
-                <input onChange={this.handleChange} type="text" placeholder="Enter Search Entity" name="location" />
-
-                <label for="license_plate"><b>Enter license plate for search</b></label>
-                <input onChange={this.handleChange} type="text" placeholder="Enter Search Entity" name="license_plate" />
-
-                <label for="phone"><b>Enter phone number for search</b></label>
-                <input onChange={this.handleChange} type="text" placeholder="Enter Search Entity" name="phone" />
+                <br />
+                <div>Search for persons of interest</div>
+                <i>Include at least one field</i>
+                <input onChange={this.handleChange} type="text" placeholder="Enter Name" name="name" />
+                
+                <input onChange={this.handleChange} type="text" placeholder="Enter location" name="location" />
+                
+                <input onChange={this.handleChange} type="text" placeholder="Enter license plate" name="license_plate" />
+                
+                <input onChange={this.handleChange} type="text" placeholder="Enter phone number" name="phone" />
                 
                 <button onClick={this.handleSearch}>Search Flag</button>
                 <div>Results</div>
                 {Array.isArray(flags) && flags.map((flag) => {
-                    return <div>{flag.name}</div>
-                })}
-                <Link to="/home"><button>Home Page</button></Link>
+                    return <div>{flag.user.email} - Expires {flag.expires ? flag.expires.split("T")[0] : 'Never'}</div>
+                })
+                }
             </React.Fragment>
         </div>
     );

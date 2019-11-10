@@ -14,7 +14,7 @@ class Login extends React.Component {
                 <label for="psw"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="psw" required />
                     
-                <Link to="/home"><button>Login</button></Link>
+                <Link to="/home"><button>Submit</button></Link>
             </React.Fragment>
         </div>
     );
