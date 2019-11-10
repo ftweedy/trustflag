@@ -16,8 +16,8 @@ const Search = (props) => {
                 <div className="col-sm-5 col-sm-offset-1">
                     <input onChange={onChange} type="text" placeholder="Enter Name" name="name" />
                     <input onChange={onChange} type="text" placeholder="Enter location" name="location" />
-                    <input onChange={onChange} type="text" placeholder="Enter license plate" name="license_plate" />
-                    <input onChange={onChange} type="text" placeholder="Enter phone number" name="phone" />
+                    <input onChange={onChange} type="text" placeholder="Enter license plate" name="licensePlateNumber" />
+                    <input onChange={onChange} type="text" placeholder="Enter phone number" name="phoneNumber" />
                 </div>
             </div>
             <div className="row">

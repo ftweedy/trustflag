@@ -20,13 +20,13 @@ export const LOGO = {
     marginBottom: 20
 }
 
-export const LOGOUT_BUTTON = {
-    backgroundColor: 15,
-    borderRadius: 15
-}
-
 export const BUTTON = {
     borderRadius: 15,
     backgroundColor: 'grey',
     color: 'white'
+}
+
+export const CONTAINER = {
+    textAlign: 'left',
+    marginTop: 20
 }

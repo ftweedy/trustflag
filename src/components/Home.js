@@ -16,10 +16,10 @@ class Home extends React.Component {
             activeFlags: [],
             name: "",
             location: "",
-            license_plate: "",
-            phone: "",
+            licensePlateNumber: "",
+            phoneNumber: "",
             searchedFlags: [],
-            view: 'search'
+            view: 'search',
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSearch = this.handleSearch.bind(this)
@@ -34,7 +34,7 @@ class Home extends React.Component {
     };
 
     handleSearch() {
-        const { name, location, license_plate, phone } = this.state
+        const { name, location, licensePlateNumber, phoneNumber } = this.state
         const params = []
         let searchTerms = ""
         if (name !== ""){
@@ -43,13 +43,12 @@ class Home extends React.Component {
         if (location !== ""){
             params.push(location)
         }
-        if (license_plate !== ""){
-            params.push(license_plate)
+        if (licensePlateNumber !== ""){
+            params.push(licensePlateNumber)
         }
-        if (phone !== ""){
-            params.push(phone)
+        if (phoneNumber !== ""){
+            params.push(phoneNumber)
         }
-        console.log(params)
 
         for (let i = 0; i < params.length; i++){
             params[i] = params[i].replace(/,/g,"");
@@ -106,8 +105,8 @@ class Home extends React.Component {
         this.setState({
             name: "",
             location: "",
-            license_plate: "",
-            phone: "",
+            licensePlateNumber: "",
+            phoneNumber: "",
             searchedFlags: [],
             view: 'search'
         })
@@ -159,7 +158,14 @@ class Home extends React.Component {
                             {searchedFlags && searchedFlags.map((flag, i) => <Flag key={i} flag={flag}/>
                             )}
                             <div className="row">
-                                Flag expires: <input type="date" onChange={this.handleChange} placeholder="Expiration date" name="expirationDate" />
+                                <div className="col-sm-4 col-sm-offset-1" style={styles.CONTAINER}>
+                                    <div>Do you still want to add a flag?</div>
+                                    <FlagDetails name={name} location={location} licensePlateNumber={licensePlateNumber} phoneNumber={phoneNumber}/>
+                                    <div>Flag expires: <input type="date" onChange={this.handleChange} placeholder="Expiration date" name="expirationDate" /></div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <br/>
                                 <div className="col-sm-6">
                                     <button style={styles.BUTTON} onClick={this.handleCreate}>Add flag</button>
                                 </div>
@@ -181,8 +187,8 @@ class Home extends React.Component {
                                 <FlagDetails name={name} location={location} licensePlateNumber={licensePlateNumber} phoneNumber={phoneNumber}/>
                             </div>
                             <div className="row">
-                                <div className="col-sm-4 col-sm-offset-1" style={{textAlign: 'left'}}>
-                                    Flag expires: <input type="date" onChange={this.handleChange} placeholder="Expiration date" name="expirationDate" />
+                                <div className="col-sm-4 col-sm-offset-1" style={styles.CONTAINER}>
+                                    <div>Flag expires: <input type="date" onChange={this.handleChange} placeholder="Expiration date" name="expirationDate" /></div>
                                 </div>
                             </div>
                             <div className="row">
