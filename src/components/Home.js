@@ -16,8 +16,7 @@ class Home extends React.Component {
         return response.json();
       })
       .then(json => {
-        let firstUser = json[0];
-        this.setState({display: json, firstUser});
+        this.setState({display: json});
         console.log(this.state.dislay)
       })
       .catch(e => {
@@ -26,7 +25,6 @@ class Home extends React.Component {
   }
 
   render () {
-    let { display, firstUser } = this.state;
     return (
         <div className="Home">
             <React.Fragment>
@@ -34,7 +32,6 @@ class Home extends React.Component {
                 <Link to="/add"><button>Add Flag</button></Link>
                 <Link to="/search"><button>Search</button></Link>
                 <Link to="/"><button>Logout</button></Link>
-                <h1>{firstUser && firstUser.email}</h1>
                 {/* <Link to="/search"><button>Search Flags</button></Link>
                 <Link to="/delete"><button>Add Flag</button></Link> */}
             </React.Fragment>

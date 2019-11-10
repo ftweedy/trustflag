@@ -13,7 +13,7 @@ class Add extends React.Component {
         success: false
     }
     
-    this.handleSearch = this.handleSearch.bind(this)
+    this.handleAdd = this.handleAdd.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
 
