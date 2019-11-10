@@ -4,6 +4,7 @@ import OwnedFlag from "./OwnedFlag";
 import * as styles from './Home.style'
 import logo from '../logo.png';
 import Search from "./Search";
+import NoMatch from "./NoMatch";
 
 class Home extends React.Component {
     constructor(props){
@@ -14,12 +15,14 @@ class Home extends React.Component {
             location: "",
             license_plate: "",
             phone: "",
-            flags: []
+            searchedFlags: [],
+            view: 'search'
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSearch = this.handleSearch.bind(this)
         this.deleteFlag = this.deleteFlag.bind(this)
         this.fetchActiveFlags = this.fetchActiveFlags.bind(this)
+        this.handleBackClick = this.handleBackClick.bind(this)
     }
 
     handleChange(event){
@@ -27,9 +30,9 @@ class Home extends React.Component {
     };
 
     handleSearch() {
-        let { name, location, license_plate, phone } = this.state
-        let params = []
-        let search_term = ""
+        const { name, location, license_plate, phone } = this.state
+        const params = []
+        let searchTerms = ""
         if (name !== ""){
             params.push(name)
         }
@@ -42,21 +45,28 @@ class Home extends React.Component {
         if (phone !== ""){
             params.push(phone)
         }
+        console.log(params)
 
         for (let i = 0; i < params.length; i++){
             params[i] = params[i].replace(/,/g,"");
-            search_term = search_term + params[i] + ","
+            searchTerms = searchTerms + params[i] + ","
         }
 
-        if (search_term !== ""){
+        if (searchTerms !== ""){
             let url = new URL("http://localhost:8080/flags/search")
-            url.searchParams.append("keywords", search_term)
+            url.searchParams.append("keywords", searchTerms)
             fetch(url)
                 .then(response => {
                     return response.json();
                 })
-                .then(json => {
-                    this.setState({flags: json});
+                .then(flags => {
+                    const newState = {searchedFlags: flags};
+                    if (flags.length === 0){
+                        newState.view = 'noMatch'
+                    } else {
+                        newState.view = 'match'
+                    }
+                    this.setState(newState);
                 })
                 .catch(e => {
                     console.log("Error", e);
@@ -69,6 +79,17 @@ class Home extends React.Component {
             .then(response => {
                 this.fetchActiveFlags()
             })
+    }
+    
+    handleBackClick(){
+        this.setState({
+            name: "",
+            location: "",
+            license_plate: "",
+            phone: "",
+            searchedFlags: [],
+            view: 'search'
+        })
     }
     
     fetchActiveFlags(){
@@ -86,28 +107,46 @@ class Home extends React.Component {
     }
 
     render () {
-        const {activeFlags} = this.state;
+        const {activeFlags, view, name, phoneNumber, licensePlateNumber, location} = this.state;
         return (
-            <div className="Home">
-                <React.Fragment>
-                    <div className="row" style={styles.HEADER}>
-                        <div className="col-sm-2">
-                            <img alt="logo" src={logo} style={styles.LOGO}/>
-                        </div>
-                        <div className="col-sm-2 col-sm-offset-8">
-                            <Link to="/"><button style={styles.LOGOUT_BUTTON}>Logout</button></Link>
-                        </div>
+            <div>
+                <div className="row" style={styles.HEADER}>
+                    <div className="col-sm-2">
+                        <img alt="logo" src={logo} style={styles.LOGO}/>
                     </div>
-                    <div className="row">
-                        <div className="col-sm-3">
-                            <div style={styles.FLAGS_HEADER}>Active Flags</div>
-                            {activeFlags && activeFlags.map(flag => <OwnedFlag onDelete={this.deleteFlag} flag={flag}/> )}
-                        </div>
+                    <div className="col-sm-2 col-sm-offset-8">
+                        <Link to="/"><button style={styles.LOGOUT_BUTTON}>Logout</button></Link>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-3">
+                        <div style={styles.FLAGS_HEADER}>Active Flags</div>
+                        {activeFlags && activeFlags.map((flag, i) => <OwnedFlag key={i} onDelete={this.deleteFlag} flag={flag}/> )}
+                    </div>
+                    {view === 'search' && 
                         <div className="col-sm-8">
                             <Search onChange={this.handleChange} onSearch={this.handleSearch}/>
                         </div>
-                    </div>
-                </React.Fragment>
+                    }
+                    {view === 'match' &&
+                        <div className="col-sm-8">
+                            <Search onChange={this.handleChange} onSearch={this.handleSearch}/>
+                        </div>
+                    }
+                    {view === 'noMatch' &&
+                        <div className="col-sm-8">
+                            <NoMatch name={name} location={location} licensePlateNumber={licensePlateNumber} phoneNumber={phoneNumber}/>
+                            <div className="row">
+                                <div className="col-sm-6">
+                                    <button style={styles.BUTTON}>Add flag</button>
+                                </div>
+                                <div className="col-sm-6">
+                                    <button style={styles.BUTTON} onClick={this.handleBackClick}>Back</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
         );
     }

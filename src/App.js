@@ -6,10 +6,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import 'bootstrap-only-css/dist/bootstrap.min.css';
 
 class App extends React.Component {
-  constructor(props){
-    super(props)
-  }
-
   render() {
     return (
       <div className="App">

@@ -2,7 +2,7 @@ import React from "react"
 import * as styles from "./Search.style"
 
 const Search = (props) => {
-    const {handleChange, handleSearch} = props;
+    const {onChange, onSearch} = props;
     return (
         <div>
             <div className="row">
@@ -14,15 +14,15 @@ const Search = (props) => {
             </div>
             <div className="row">
                 <div className="col-sm-5 col-sm-offset-1">
-                    <input onChange={handleChange} type="text" placeholder="Enter Name" name="name" />
-                    <input onChange={handleChange} type="text" placeholder="Enter location" name="location" />
-                    <input onChange={handleChange} type="text" placeholder="Enter license plate" name="license_plate" />
-                    <input onChange={handleChange} type="text" placeholder="Enter phone number" name="phone" />
+                    <input onChange={onChange} type="text" placeholder="Enter Name" name="name" />
+                    <input onChange={onChange} type="text" placeholder="Enter location" name="location" />
+                    <input onChange={onChange} type="text" placeholder="Enter license plate" name="license_plate" />
+                    <input onChange={onChange} type="text" placeholder="Enter phone number" name="phone" />
                 </div>
             </div>
             <div className="row">
                 <div className="col-sm-1 col-sm-offset-1">
-                    <button style={styles.SEARCH_BUTTON} onClick={handleSearch}>Search</button>
+                    <button style={styles.SEARCH_BUTTON} onClick={onSearch}>Search</button>
                 </div>
             </div>
         </div>
