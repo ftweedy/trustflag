@@ -18,6 +18,8 @@ class Home extends React.Component {
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSearch = this.handleSearch.bind(this)
+        this.deleteFlag = this.deleteFlag.bind(this)
+        this.fetchActiveFlags = this.fetchActiveFlags.bind(this)
     }
 
     handleChange(event){
@@ -61,8 +63,15 @@ class Home extends React.Component {
                 });
         }
     }
-
-    componentDidMount() {
+    
+    deleteFlag(id){
+        fetch("http://localhost:8080/flags/" + id, {method: 'DELETE'})
+            .then(response => {
+                this.fetchActiveFlags()
+            })
+    }
+    
+    fetchActiveFlags(){
         fetch("http://localhost:8080/flags/user/1")
             .then(response => {
                 return response.json();
@@ -70,6 +79,10 @@ class Home extends React.Component {
             .then(activeFlags => {
                 this.setState({activeFlags});
             })
+    }
+
+    componentDidMount() {
+        this.fetchActiveFlags()
     }
 
     render () {
@@ -82,13 +95,13 @@ class Home extends React.Component {
                             <img alt="logo" src={logo} style={styles.LOGO}/>
                         </div>
                         <div className="col-sm-2 col-sm-offset-8">
-                            <Link to="/"><button>Logout</button></Link>
+                            <Link to="/"><button style={styles.LOGOUT_BUTTON}>Logout</button></Link>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-sm-3">
                             <div style={styles.FLAGS_HEADER}>Active Flags</div>
-                            {activeFlags && activeFlags.map(flag => <OwnedFlag flag={flag}/> )}
+                            {activeFlags && activeFlags.map(flag => <OwnedFlag onDelete={this.deleteFlag} flag={flag}/> )}
                         </div>
                         <div className="col-sm-8">
                             <Search onChange={this.handleChange} onSearch={this.handleSearch}/>

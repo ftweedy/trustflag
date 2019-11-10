@@ -1,5 +1,5 @@
 export const SEARCH_BUTTON = {
-    borderRadius: 5,
-    backgroundColor: 'grey',
+    borderRadius: 15,
+    backgroundColor: '#3a4ba7',
     color: 'white'
 }

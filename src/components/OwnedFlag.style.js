@@ -6,3 +6,9 @@ export const CONTAINER = {
     marginTop: 5,
     textAlign: 'left'
 };
+
+export const DELETE_BUTTON = {
+    borderRadius: 15,
+    backgroundColor: 'grey',
+    color: 'white'
+}
