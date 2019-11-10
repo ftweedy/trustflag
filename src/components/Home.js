@@ -5,6 +5,9 @@ import * as styles from './Home.style'
 import logo from '../logo.png';
 import Search from "./Search";
 import NoMatch from "./NoMatch";
+import Flag from "./Flag";
+
+const USER_ID = 1;
 
 class Home extends React.Component {
     constructor(props){
@@ -23,6 +26,7 @@ class Home extends React.Component {
         this.deleteFlag = this.deleteFlag.bind(this)
         this.fetchActiveFlags = this.fetchActiveFlags.bind(this)
         this.handleBackClick = this.handleBackClick.bind(this)
+        this.handleCreate = this.handleCreate.bind(this)
     }
 
     handleChange(event){
@@ -68,10 +72,27 @@ class Home extends React.Component {
                     }
                     this.setState(newState);
                 })
-                .catch(e => {
-                    console.log("Error", e);
-                });
         }
+    }
+    
+    handleCreate(){
+        const {name, licensePlateNumber, phoneNumber, location} = this.state;
+        const flag = {
+            name: name || null,
+            licensePlateNumber: licensePlateNumber || null,
+            phoneNumber: phoneNumber || null,
+            location: location || null,
+            userId: USER_ID
+        }
+        
+        console.log("FLAG", flag)
+        fetch("http://localhost:8080/flags", {method: 'POST', body: JSON.stringify(flag), headers: {
+                'Content-Type': 'application/json'
+            }})
+            .then(response => {
+                this.fetchActiveFlags()
+                this.setState({view: 'created', name: "", location: "", phoneNumber: "", licensePlateNumber: ""})
+            })
     }
     
     deleteFlag(id){
@@ -93,7 +114,7 @@ class Home extends React.Component {
     }
     
     fetchActiveFlags(){
-        fetch("http://localhost:8080/flags/user/1")
+        fetch("http://localhost:8080/flags/user/" + USER_ID)
             .then(response => {
                 return response.json();
             })
@@ -107,7 +128,7 @@ class Home extends React.Component {
     }
 
     render () {
-        const {activeFlags, view, name, phoneNumber, licensePlateNumber, location} = this.state;
+        const {activeFlags, view, name, phoneNumber, licensePlateNumber, location, searchedFlags} = this.state;
         return (
             <div>
                 <div className="row" style={styles.HEADER}>
@@ -130,20 +151,38 @@ class Home extends React.Component {
                     }
                     {view === 'match' &&
                         <div className="col-sm-8">
-                            <Search onChange={this.handleChange} onSearch={this.handleSearch}/>
-                        </div>
-                    }
-                    {view === 'noMatch' &&
-                        <div className="col-sm-8">
-                            <NoMatch name={name} location={location} licensePlateNumber={licensePlateNumber} phoneNumber={phoneNumber}/>
+                            <br/>
+                            <div>Match found. Please contact:</div>
+                            {searchedFlags && searchedFlags.map((flag, i) => <Flag key={i} flag={flag}/>
+                            )}
                             <div className="row">
                                 <div className="col-sm-6">
-                                    <button style={styles.BUTTON}>Add flag</button>
+                                    <button style={styles.BUTTON} onClick={this.handleCreate}>Add flag</button>
                                 </div>
                                 <div className="col-sm-6">
                                     <button style={styles.BUTTON} onClick={this.handleBackClick}>Back</button>
                                 </div>
                             </div>
+                        </div>
+                    }
+                    {view === 'noMatch' &&
+                        <div className="col-sm-8">v
+                            <NoMatch name={name} location={location} licensePlateNumber={licensePlateNumber} phoneNumber={phoneNumber}/>
+                            <div className="row">
+                                <div className="col-sm-6">
+                                    <button style={styles.BUTTON} onClick={this.handleCreate}>Add flag</button>
+                                </div>
+                                <div className="col-sm-6">
+                                    <button style={styles.BUTTON} onClick={this.handleBackClick}>Back</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    {view === 'created' &&
+                        <div className="col-sm-8">
+                            <br/>
+                            <div>Flag created</div>
+                            <Search onChange={this.handleChange} onSearch={this.handleSearch}/>
                         </div>
                     }
                 </div>
