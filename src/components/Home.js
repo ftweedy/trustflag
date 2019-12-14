@@ -7,16 +7,12 @@ import { Link } from "react-router-dom";
 import OwnedFlag from "./OwnedFlag";
 import * as styles from './Home.style'
 import logo from '../logo.png';
-<<<<<<< HEAD
 import FlagSearch from "./FlagSearch";
 import FlagDetails from "./FlagDetails";
 import Flag from "./Flag";
+import NoMatch from './NoMatch'
 
 const USER_ID = 1;
-=======
-import Search from "./Search";
-import NoMatch from './NoMatch'
->>>>>>> 755d6e823808e1d1ee1885ac7e0a4f6926b6b6c3
 
 class Home extends React.Component {
     constructor(props){
@@ -290,17 +286,9 @@ class Home extends React.Component {
                         </div>
                     }
                 </div>
-<<<<<<< HEAD
             </div>
         );
     }
-=======
-                <NoMatch/>
-            </React.Fragment>
-        </div>
-    );
-  }
->>>>>>> 755d6e823808e1d1ee1885ac7e0a4f6926b6b6c3
 }
 
 export default Home
