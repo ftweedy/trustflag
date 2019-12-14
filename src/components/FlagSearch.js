@@ -1,7 +1,7 @@
 import React from "react"
-import * as styles from "./Search.style"
+import * as styles from "./FlagSearch.style"
 
-const Search = (props) => {
+const FlagSearch = (props) => {
     const {onChange, onSearch} = props;
     return (
         <div>
@@ -29,4 +29,4 @@ const Search = (props) => {
     );
 }
 
-export default Search
+export default FlagSearch

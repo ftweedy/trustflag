@@ -1,9 +1,13 @@
 import React from "react"
+import { Table, Button } from 'react-bootstrap';
+import BootstrapTable from 'react-bootstrap-table-next';
+import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
+
 import { Link } from "react-router-dom";
 import OwnedFlag from "./OwnedFlag";
 import * as styles from './Home.style'
 import logo from '../logo.png';
-import Search from "./Search";
+import FlagSearch from "./FlagSearch";
 import FlagDetails from "./FlagDetails";
 import Flag from "./Flag";
 
@@ -19,21 +23,27 @@ class Home extends React.Component {
             licensePlateNumber: "",
             phoneNumber: "",
             searchedFlags: [],
-            view: 'search',
+            view: 'dashboard',
         }
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSearch = this.handleSearch.bind(this)
-        this.deleteFlag = this.deleteFlag.bind(this)
-        this.fetchActiveFlags = this.fetchActiveFlags.bind(this)
-        this.handleBackClick = this.handleBackClick.bind(this)
-        this.handleCreate = this.handleCreate.bind(this)
     }
 
-    handleChange(event){
+    handleChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
     };
 
-    handleSearch() {
+    toLogIncident = () => {
+        this.setState({ view: 'log' })
+    }
+
+    toDashboard = () => {
+        const { activeFlags } = this.state
+        console.log(activeFlags[0])
+        Array.isArray(activeFlags) && activeFlags.map((flag, i) => 
+            console.log(flag.name, flag.location, flag.phoneNumber, flag.licensePlateNumber))
+        this.setState({ view: 'dashboard' })
+    }
+
+    handleSearch = () => {
         const { name, location, licensePlateNumber, phoneNumber } = this.state
         const params = []
         let searchTerms = ""
@@ -56,7 +66,7 @@ class Home extends React.Component {
         }
 
         if (searchTerms !== ""){
-            let url = new URL("http://localhost:8080/flags/search")
+            let url = new URL("http://localhost:8080/flags/search")//un-hardcode for live
             url.searchParams.append("keywords", searchTerms)
             fetch(url)
                 .then(response => {
@@ -74,7 +84,7 @@ class Home extends React.Component {
         }
     }
     
-    handleCreate(){
+    handleCreate = () => {
         const {name, licensePlateNumber, phoneNumber, location, expirationDate} = this.state;
         const flag = {
             name: name || null,
@@ -85,23 +95,26 @@ class Home extends React.Component {
             expirationDate: expirationDate || null
         }
         
-        fetch("http://localhost:8080/flags", {method: 'POST', body: JSON.stringify(flag), headers: {
+        fetch("http://localhost:8080/flags", {
+            method: 'POST', 
+            body: JSON.stringify(flag), 
+            headers: {
                 'Content-Type': 'application/json'
             }})
             .then(response => {
                 this.fetchActiveFlags()
-                this.setState({view: 'created', name: "", location: "", phoneNumber: "", licensePlateNumber: ""})
+                this.setState({view: 'dashboard', name: "", location: "", phoneNumber: "", licensePlateNumber: ""})
             })
     }
     
-    deleteFlag(id){
+    deleteFlag = (id) => {
         fetch("http://localhost:8080/flags/" + id, {method: 'DELETE'})
             .then(response => {
                 this.fetchActiveFlags()
             })
     }
     
-    handleBackClick(){
+    handleBackClick = () => {
         this.setState({
             name: "",
             location: "",
@@ -112,7 +125,7 @@ class Home extends React.Component {
         })
     }
     
-    fetchActiveFlags(){
+    fetchActiveFlags = () => {
         fetch("http://localhost:8080/flags/user/" + USER_ID)
             .then(response => {
                 return response.json();
@@ -122,12 +135,22 @@ class Home extends React.Component {
             })
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
         this.fetchActiveFlags()
     }
 
-    render () {
+    render = () => {
         const {activeFlags, view, name, phoneNumber, licensePlateNumber, location, searchedFlags} = this.state;
+        const { SearchBar, ClearSearchButton } = Search;
+        const columns = [
+            {dataField: 'id', text: 'ID'}, 
+            {dataField: 'name', text: 'Person Name'}, 
+            {dataField: 'phoneNumber', text: 'Phone Number'},
+            {dataField: 'location', text: 'Location'}, 
+            {dataField: 'licensePlateNumber', text: 'License Plate Number'}, 
+            {dataField: 'expirationDate', text: "Expiration Date"}
+        ];
+
         return (
             <div>
                 <div className="row" style={styles.HEADER}>
@@ -143,12 +166,64 @@ class Home extends React.Component {
                 </div>
                 <div className="row" style={{boxSizing: 'content-box'}}>
                     <div className="col-sm-3">
-                        <div style={styles.FLAGS_HEADER}>Active Flags</div>
-                        {Array.isArray(activeFlags) && activeFlags.map((flag, i) => <OwnedFlag key={i} onDelete={this.deleteFlag} flag={flag}/> )}
+                        <div className="row">
+                            <Button onClick={this.toDashboard} block>Home</Button>
+                        </div>
+                        <div className="row">
+                            <Button onClick={this.toLogIncident} block>Log Incident</Button>
+                        </div>
+                        <div className="row">
+                            <Link to="/"><Button block>Logout</Button></Link>
+                        </div>
                     </div>
-                    {view === 'search' && 
+                    {view === 'dashboard' && 
                         <div className="col-sm-7">
-                            <Search onChange={this.handleChange} onSearch={this.handleSearch}/>
+                            <br/>
+
+                            <div className="row">
+                                <div className="col-sm-3">
+                                    Welcome back!
+                                </div>
+                                <div className="col-sm-offset-10">
+                                    <Button onClick={this.toLogIncident}>Log Incident</Button>
+                                </div>
+                            </div>
+
+                            <br/>
+
+                            <ToolkitProvider keyField="id" data={ activeFlags } columns={ columns } search>
+                            {
+                                props => (
+                                <div>
+                                    <h3>Input something at below input field:</h3>
+                                    <SearchBar { ...props.searchProps } />
+                                    <ClearSearchButton { ...props.searchProps } />
+                                    <hr />
+                                    <BootstrapTable
+                                    { ...props.baseProps }
+                                    />
+                                </div>)
+                            }
+                            </ToolkitProvider>
+                            {/* <Table striped bordered hover size="sm">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Phone Number</th>
+                                    <th>Location</th>
+                                    <th>License Plate #</th>
+                                    <th>Expires</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {Array.isArray(activeFlags) && activeFlags.map((flag, i) => <OwnedFlag key={i} onDelete={this.deleteFlag} flag={flag}/> )}
+                            </tbody>
+                            </Table> */}
+                        </div>
+                    }
+                    {view === 'log' &&
+                        <div className="col-sm-7">
+                            <FlagSearch onChange={this.handleChange} onSearch={this.handleSearch}/>
                         </div>
                     }
                     {view === 'match' &&
@@ -206,7 +281,7 @@ class Home extends React.Component {
                         <div className="col-sm-7">
                             <br/>
                             <div>Flag created</div>
-                            <Search onChange={this.handleChange} onSearch={this.handleSearch}/>
+                            <FlagSearch onChange={this.handleChange} onSearch={this.handleSearch}/>
                         </div>
                     }
                 </div>
