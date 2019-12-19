@@ -10,21 +10,14 @@ const OwnedFlag = ({flag, onDelete}) => {
     }
 
     return (
-        <div style={styles.CONTAINER}>
-            <div className="row">
-                <div className="col-sm-8">
-                    {flag.name && <div>Name: {flag.name}</div>}
-                    {flag.phoneNumber && <div>Phone number: {flag.phoneNumber}</div>}
-                    {flag.location && <div>Location: {flag.location}</div>}
-                    {flag.licensePlateNumber && <div>License plate number: {flag.licensePlateNumber}</div>}
-                    <div>Expires: {flag.expirationDate ? flag.expirationDate.split("T")[0] : 'Never'}</div>
-                </div>
-                <div className="col-sm-2">
-                    <button style={styles.DELETE_BUTTON} onClick={handleDelete}>Delete</button>
-                </div>
-            </div>
-            
-        </div>
+        <tr>
+            <td>{flag.name && <div>{flag.name}</div>}</td>
+            <td>{flag.phoneNumber && <div>{flag.phoneNumber}</div>}</td>
+            <td>{flag.location && <div>{flag.location}</div>}</td>
+            <td>{flag.licensePlateNumber && <div>{flag.licensePlateNumber}</div>}</td>
+            <td><div>{flag.expirationDate ? flag.expirationDate.split("T")[0] : 'Never'}</div></td>
+            <button style={styles.DELETE_BUTTON} onClick={handleDelete}>Delete</button>
+        </tr>         
     );
 };
 
