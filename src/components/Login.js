@@ -14,53 +14,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 // import PropTypes from "prop-types"
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://www.google.com">
-        | Terms of Use | Privacy Policy | Zoo Hack
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    height: '100vh',
-  },
-  image: {
-    backgroundImage: 'url(' + require('../resources/zoohack.png') + ')',
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat'
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    marginTop: theme.spacing(25),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(5),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 5),
-    color: "white",
-    backgroundColor: "#42435B",
-    "&:hover": {
-      backgroundColor: "#42435B"
-    }
-  },
-}));
-
 export default function SignInSide() {
   const classes = useStyles();
 
@@ -123,3 +76,51 @@ export default function SignInSide() {
     </Grid>
   );
 }
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://www.google.com">
+        | Terms of Use | Privacy Policy | Zoo Hack
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    height: '100vh',
+  },
+  image: {
+    backgroundImage: 'url(' + require('../resources/zoohack.png') + ')',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat'
+  },
+  paper: {
+    margin: theme.spacing(8, 4),
+    marginTop: theme.spacing(25),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(5),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 5),
+    color: "white",
+    backgroundColor: "#42435B",
+    "&:hover": {
+      backgroundColor: "#42435B"
+    }
+  },
+}));
