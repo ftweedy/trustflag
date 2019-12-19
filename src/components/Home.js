@@ -11,6 +11,7 @@ import FlagSearch from "./FlagSearch";
 import FlagDetails from "./FlagDetails";
 import Flag from "./Flag";
 import NoMatch from './NoMatch'
+import Maps from './Maps'
 
 const USER_ID = 1;
 
@@ -144,10 +145,10 @@ class Home extends React.Component {
         const {activeFlags, view, name, phoneNumber, licensePlateNumber, location, searchedFlags} = this.state;
         const { SearchBar, ClearSearchButton } = Search;
         const columns = [
-            {dataField: 'id', text: 'ID'}, 
-            {dataField: 'name', text: 'Person Name'}, 
+            {dataField: 'id', text: 'ID', sort: true}, 
+            {dataField: 'name', text: 'Person Name', sort: true}, 
             {dataField: 'phoneNumber', text: 'Phone Number'},
-            {dataField: 'location', text: 'Location'}, 
+            {dataField: 'location', text: 'Location', sort: true}, 
             {dataField: 'licensePlateNumber', text: 'License Plate Number'}, 
             {dataField: 'expirationDate', text: "Expiration Date"}
         ];
@@ -206,20 +207,7 @@ class Home extends React.Component {
                                 </div>)
                             }
                             </ToolkitProvider>
-                            {/* <Table striped bordered hover size="sm">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Phone Number</th>
-                                    <th>Location</th>
-                                    <th>License Plate #</th>
-                                    <th>Expires</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {Array.isArray(activeFlags) && activeFlags.map((flag, i) => <OwnedFlag key={i} onDelete={this.deleteFlag} flag={flag}/> )}
-                            </tbody>
-                            </Table> */}
+                            <Maps />
                         </div>
                     }
                     {view === 'log' &&
