@@ -33,7 +33,7 @@ class Home extends React.Component {
     };
 
     toLogIncident = () => {
-        this.setState({ view: 'log' })
+        this.setState({ view: 'home' })
     }
 
     toDashboard = () => {
