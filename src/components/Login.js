@@ -12,6 +12,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { NONAME } from 'dns';
 // import PropTypes from "prop-types"
 
 export default function SignInSide() {
@@ -111,7 +112,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '50%', // Fix IE 11 issue.
+    border: 0,
     marginTop: theme.spacing(5),
   },
   submit: {
