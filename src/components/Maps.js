@@ -7,26 +7,23 @@ class Maps extends Component {
   constructor(props){
     super(props)
     this.state = {
-        center: {
-          lat: 59.95,
-          lng: 30.33
-        },
-        zoom: 11
+        zoom: 5,
     }
   }
  
   render() {
+    let { lat, lng } = this.props
     return (
       // Important! Always set the container height explicitly
       <div style={{ height: '100vh', width: '100%' }}>
         <GoogleMapReact
           bootstrapURLKeys={{ key: "AIzaSyDU544ZtUbwyHhK-Ho26v-1SMF-MOrIj9Q" }}
-          defaultCenter={this.state.center}
+          center={{lat: lat, lng: lng}}
           defaultZoom={this.state.zoom}
         >
           <AnyReactComponent
-            lat={59.955413}
-            lng={30.337844}
+            lat={lat}
+            lng={lng}
             text="My Marker"
           />
         </GoogleMapReact>

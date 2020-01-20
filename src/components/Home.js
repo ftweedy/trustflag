@@ -26,6 +26,8 @@ class Home extends React.Component {
             phoneNumber: "",
             searchedFlags: [],
             view: 'dashboard',
+            lat: 0,
+            lng: 0
         }
     }
 
@@ -34,7 +36,7 @@ class Home extends React.Component {
     };
 
     toLogIncident = () => {
-        this.setState({ view: 'home' })
+        this.setState({ view: 'log' })
     }
 
     toDashboard = () => {
@@ -142,7 +144,7 @@ class Home extends React.Component {
     }
 
     render = () => {
-        const {activeFlags, view, name, phoneNumber, licensePlateNumber, location, searchedFlags} = this.state;
+        const {activeFlags, view, name, phoneNumber, licensePlateNumber, location, searchedFlags, lat, lng} = this.state;
         const { SearchBar, ClearSearchButton } = Search;
         const columns = [
             {dataField: 'id', text: 'ID', sort: true}, 
@@ -152,6 +154,13 @@ class Home extends React.Component {
             {dataField: 'licensePlateNumber', text: 'License Plate Number'}, 
             {dataField: 'expirationDate', text: "Expiration Date"}
         ];
+        const selectRow = {
+            mode: 'radio',
+            clickToSelect: true,
+            onSelect: (row) => {
+                this.setState({lat: row.id, lng: row.id});
+              }
+        };
 
         return (
             <div>
@@ -193,7 +202,12 @@ class Home extends React.Component {
 
                             <br/>
 
-                            <ToolkitProvider keyField="id" data={ activeFlags } columns={ columns } search>
+                            <ToolkitProvider 
+                                keyField="id" 
+                                data={ activeFlags } 
+                                columns={ columns }   
+                                search
+                            >
                             {
                                 props => (
                                 <div>
@@ -202,12 +216,13 @@ class Home extends React.Component {
                                     <ClearSearchButton { ...props.searchProps } />
                                     <hr />
                                     <BootstrapTable
-                                    { ...props.baseProps }
+                                    { ...props.baseProps } 
+                                    selectRow={ selectRow }
                                     />
                                 </div>)
                             }
                             </ToolkitProvider>
-                            <Maps />
+                            <Maps lat={lat} lng={lng}/>
                         </div>
                     }
                     {view === 'log' &&
